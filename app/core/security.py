@@ -1,7 +1,7 @@
 
 from passlib.context import CryptContext
 from jose import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,timezone
 
 SECRET_KEY = "supersecretkey"
 ALGORITHM = "HS256"
