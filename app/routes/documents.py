@@ -121,3 +121,28 @@ def get_all_documents(
     admin = Depends(admin_only)
 ):
     return db.query(Document).all()
+
+@router.get("/documents")
+def get_documents(
+    page: int = 1,
+    limit: int = 10,
+    status: str | None = None,
+    db: Session = Depends(get_db)
+):
+    query = db.query(Document)
+
+    if status:
+        query = query.filter(Document.status == status)
+
+    total = query.count()
+
+    offset = (page - 1) * limit
+
+    documents = query.offset(offset).limit(limit).all()
+
+    return {
+        "total": total,
+        "page": page,
+        "limit": limit,
+        "data": documents
+    }
